@@ -35,5 +35,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Hebilife3D\Assets\Libs\HebilifeLib\HebilifeLib.csproj">
+      <Project>{019218C5-2121-409D-B31C-AFACE1E5B826}</Project>
+      <Name>HebilifeLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
