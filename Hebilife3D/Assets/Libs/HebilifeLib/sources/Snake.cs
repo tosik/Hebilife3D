@@ -8,17 +8,33 @@ namespace Hebilife
         public Position Head { get { return _bodies.Last(); } }
         public Position NextPosition { get { return Head + Direction.AsPosition(); } }
         public Direction Direction { get; private set; }
+        public IEnumerable<Position> Bodies { get { return _bodies; } }
+        public bool Dead { get; private set; }
 
         Queue<Position> _bodies = new Queue<Position>();
+        Brain _brain = new Brain();
 
         public Snake()
         {
             Direction = Direction.North;
         }
 
-        public void Turn(RelativeDirection relative)
+        public void FeelAndThink(Feeling feeling)
         {
-            Direction = Direction.Turn(relative);
+            var output = _brain.Input(feeling);
+            switch (output)
+            {
+                case 0:
+                    break;
+                case 1:
+                    Turn(RelativeDirection.Left);
+                    break;
+                case 2:
+                    Turn(RelativeDirection.Right);
+                    break;
+                case 3:
+                    break;
+            }
         }
 
         public void Move()
@@ -32,6 +48,11 @@ namespace Hebilife
             Extend();
         }
 
+        public void Die()
+        {
+            Dead = true;
+        }
+
         void Extend()
         {
             _bodies.Enqueue(NextPosition);
@@ -40,6 +61,11 @@ namespace Hebilife
         void Shrink()
         {
             _bodies.Dequeue();
+        }
+
+        void Turn(RelativeDirection relative)
+        {
+            Direction = Direction.Turn(relative);
         }
     }
 }
