@@ -34,18 +34,6 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\..\Hebilife3D\Assets\Scripts\LegacyHebilifeLibs\Brain.cs">
-      <Link>LegacyHebilifeLibs\Brain.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Hebilife3D\Assets\Scripts\LegacyHebilifeLibs\Field.cs">
-      <Link>LegacyHebilifeLibs\Field.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Hebilife3D\Assets\Scripts\LegacyHebilifeLibs\NeuralNetwork.cs">
-      <Link>LegacyHebilifeLibs\NeuralNetwork.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Hebilife3D\Assets\Scripts\LegacyHebilifeLibs\Snake.cs">
-      <Link>LegacyHebilifeLibs\Snake.cs</Link>
-    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
