@@ -6,7 +6,7 @@ namespace HebilifeCSharp
     {
         public static void Main(string[] args)
         {
-            var field = new Field();
+            var field = new Legacy.Hebilife.Field();
 
             for (var i = 0; i < 100; i++)
             {
