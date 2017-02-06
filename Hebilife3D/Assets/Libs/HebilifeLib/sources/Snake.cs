@@ -8,8 +8,9 @@ namespace Hebilife
         public Position Head { get { return _bodies.Last(); } }
         public Position NextPosition { get { return Head + Direction.AsPosition(); } }
         public Direction Direction { get; private set; }
-        public IEnumerable<Position> Bodies { get { return _bodies; } }
         public bool Dead { get; private set; }
+        public IEnumerable<Position> Bodies { get { return _bodies; } }
+        public IEnumerable<Position> BodiesWithoutTerminal { get { return _bodies.Skip(1); } }
 
         Queue<Position> _bodies = new Queue<Position>();
         Brain _brain = new Brain();

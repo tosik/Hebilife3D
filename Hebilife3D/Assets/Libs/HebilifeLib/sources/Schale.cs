@@ -43,7 +43,7 @@ namespace Hebilife
 
         void DecideDeath(Snake snake)
         {
-            if (ObstacleExists(snake.NextPosition) ||
+            if (ObstacleExistsInNextTiming(snake.NextPosition) ||
                 CollidedWithOtherNextPositions(snake.NextPosition))
             {
                 snake.Die();
@@ -71,10 +71,10 @@ namespace Hebilife
             }
         }
 
-        bool ObstacleExists(Position position)
+        bool ObstacleExistsInNextTiming(Position position)
         {
             var wall = _walls.Contains(position);
-            var snake = _snakes.Any(s => s.Bodies.Contains(position));
+            var snake = _snakes.Any(s => s.BodiesWithoutTerminal.Contains(position));
 
             return wall || snake;
         }
