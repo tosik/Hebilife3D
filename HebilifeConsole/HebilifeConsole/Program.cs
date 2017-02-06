@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HebilifeCSharp
+namespace HebilifeConsole
 {
     class Program
     {

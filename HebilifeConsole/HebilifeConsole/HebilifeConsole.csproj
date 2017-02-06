@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{126A36FD-5C9E-47BC-921A-877BB8216D97}</ProjectGuid>
+    <ProjectGuid>{319A69B0-922F-42ED-A6A8-37E04C8CF2B0}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>HebilifeCSharp</RootNamespace>
-    <AssemblyName>HebilifeCSharp</AssemblyName>
+    <RootNamespace>HebilifeConsole</RootNamespace>
+    <AssemblyName>HebilifeConsole</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -36,9 +36,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Hebilife3D\Assets\Libs\HebilifeLib\HebilifeLib.csproj">
+    <ProjectReference Include="..\..\Hebilife3D\Assets\Libs\HebilifeLib\Hebilife.csproj">
       <Project>{019218C5-2121-409D-B31C-AFACE1E5B826}</Project>
-      <Name>HebilifeLib</Name>
+      <Name>Hebilife</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

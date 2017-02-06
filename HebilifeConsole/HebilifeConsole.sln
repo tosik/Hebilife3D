@@ -1,9 +1,9 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HebilifeCSharp", "HebilifeCSharp\HebilifeCSharp.csproj", "{126A36FD-5C9E-47BC-921A-877BB8216D97}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HebilifeConsole", "HebilifeConsole\HebilifeConsole.csproj", "{319A69B0-922F-42ED-A6A8-37E04C8CF2B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HebilifeLib", "..\Hebilife3D\Assets\Libs\HebilifeLib\HebilifeLib.csproj", "{019218C5-2121-409D-B31C-AFACE1E5B826}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hebilife", "..\Hebilife3D\Assets\Libs\HebilifeLib\Hebilife.csproj", "{019218C5-2121-409D-B31C-AFACE1E5B826}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{126A36FD-5C9E-47BC-921A-877BB8216D97}.Debug|x86.ActiveCfg = Debug|x86
-		{126A36FD-5C9E-47BC-921A-877BB8216D97}.Debug|x86.Build.0 = Debug|x86
-		{126A36FD-5C9E-47BC-921A-877BB8216D97}.Release|x86.ActiveCfg = Release|x86
-		{126A36FD-5C9E-47BC-921A-877BB8216D97}.Release|x86.Build.0 = Release|x86
+		{319A69B0-922F-42ED-A6A8-37E04C8CF2B0}.Debug|x86.ActiveCfg = Debug|x86
+		{319A69B0-922F-42ED-A6A8-37E04C8CF2B0}.Debug|x86.Build.0 = Debug|x86
+		{319A69B0-922F-42ED-A6A8-37E04C8CF2B0}.Release|x86.ActiveCfg = Release|x86
+		{319A69B0-922F-42ED-A6A8-37E04C8CF2B0}.Release|x86.Build.0 = Release|x86
 		{019218C5-2121-409D-B31C-AFACE1E5B826}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{019218C5-2121-409D-B31C-AFACE1E5B826}.Debug|x86.Build.0 = Debug|Any CPU
 		{019218C5-2121-409D-B31C-AFACE1E5B826}.Release|x86.ActiveCfg = Release|Any CPU
