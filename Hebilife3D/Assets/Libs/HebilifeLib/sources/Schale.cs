@@ -8,6 +8,7 @@ namespace Hebilife
     {
         public IEnumerable<Snake> Snakes { get { return _snakes; } }
         public Feeds Feeds { get { return _feeds; } }
+        public IEnumerable<Position> Walls { get { return _walls; } }
 
         List<Snake> _snakes = new List<Snake>();
         readonly Feeds _feeds = new Feeds();
@@ -19,20 +20,34 @@ namespace Hebilife
             return _random.Next(1024);
         }
 
-        public void GenerateSnakes(int num)
+        public void GenerateSnakes(int num, long sizeX, long sizeY)
         {
             for (var i = 0; i < num; i++)
             {
-                var snake = new Snake(new Position(Rand() % 10, Rand() % 10), RandomDirection());
+                var snake = new Snake(new Position(Rand() % (sizeX - 2) + 1, Rand() % (sizeY - 2) + 1), RandomDirection());
                 _snakes.Add(snake);
             }
         }
 
-        public void GenerateFeeds(int num)
+        public void GenerateFeeds(int num, long sizeX, long sizeY)
         {
             for (var i = 0; i < num; i++)
             {
-                _feeds.Put(new Position(Rand() % 10, Rand() % 10));
+                _feeds.Put(new Position(Rand() % (sizeX - 2) + 1, Rand() % (sizeY - 2) + 1));
+            }
+        }
+
+        public void CreateFrame(long sizeX, long sizeY)
+        {
+            for (var i = 0; i < sizeX; i++)
+            {
+                _walls.Add(new Position(i, 0));
+                _walls.Add(new Position(i, sizeY - 1));
+            }
+            for (var i = 0; i < sizeY; i++)
+            {
+                _walls.Add(new Position(0, i));
+                _walls.Add(new Position(sizeX - 1, i));
             }
         }
 
@@ -53,9 +68,20 @@ namespace Hebilife
             }
         }
 
+        bool IsObstacle(Position position, Snake ignoringSnake)
+        {
+            return ObstacleExistsInNextTiming(position) ||
+                CollidedWithOtherNextPositions(position, ignoringSnake);
+        }
+
         void Think(Snake snake)
         {
             var feeling = new Feeling();
+            feeling.FeedInFront = _feeds.Exists(snake.NextPosition);
+            feeling.ObstacleInFront = IsObstacle(snake.NextPosition, snake);
+            feeling.ObstacleOnLeft = IsObstacle(snake.Head + snake.Direction.Turn(RelativeDirection.Left).AsPosition(), snake);
+            feeling.ObstacleOnRight = IsObstacle(snake.Head + snake.Direction.Turn(RelativeDirection.Right).AsPosition(), snake);
+
             snake.FeelAndThink(feeling);
         }
 
@@ -69,8 +95,7 @@ namespace Hebilife
 
         void DecideDeath(Snake snake)
         {
-            if (ObstacleExistsInNextTiming(snake.NextPosition) ||
-                CollidedWithOtherNextPositions(snake.NextPosition, snake))
+            if (IsObstacle(snake.NextPosition, snake))
             {
                 snake.Die();
             }

@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Linq;
+
 namespace Hebilife
 {
     public class View
     {
         public enum Cell
         {
-            None, Snake, Feed,
+            None, Snake, Feed, Wall,
         }
 
         public long SizeX { get; private set; }
@@ -29,6 +31,8 @@ namespace Hebilife
                 {
                     if (schale.Feeds.Exists(new Position(x, y)))
                         TrySet(x, y, Cell.Feed);
+                    else if (schale.Walls.Contains(new Position(x, y)))
+                        TrySet(x, y, Cell.Wall);
                     else
                         TrySet(x, y, Cell.None);
                 }

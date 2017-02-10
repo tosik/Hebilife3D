@@ -16,8 +16,9 @@ public class Game : MonoBehaviour
     void Start()
     {
         _view = new View(SizeX, SizeY);
-        _schale.GenerateSnakes(10);
-        _schale.GenerateFeeds(10);
+        _schale.GenerateSnakes(100, SizeX, SizeY);
+        _schale.GenerateFeeds(100, SizeX, SizeY);
+        _schale.CreateFrame(SizeX, SizeY);
     }
 
     void Update()
@@ -44,8 +45,15 @@ public class Game : MonoBehaviour
                     case View.Cell.Snake:
                         character = "o";
                         break;
+                    case View.Cell.Wall:
+                        character = "X";
+                        break;
                 }
-                GUI.Label(new Rect(x * 10, y * 10, 30, 30), character);
+
+                if (character != "")
+                {
+                    GUI.Label(new Rect(x * 10, y * 10, 30, 30), character);
+                }
             }
         }
     }
