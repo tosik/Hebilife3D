@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Hebilife;
 
 namespace HebilifeConsole
@@ -24,7 +25,6 @@ namespace HebilifeConsole
                 schale.Step();
             }
         }
-
 
         static void RunLegacy()
         {

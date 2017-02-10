@@ -1,44 +1,51 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Hebilife;
 
 public class Game : MonoBehaviour
 {
-    public Field Field = new Field();
+    [SerializeField]
+    long SizeX = 50;
+
+    [SerializeField]
+    long SizeY = 50;
+
+    Schale _schale = new Schale();
+    View _view;
 
     void Start()
     {
-        for (var i = 0; i < 100; i++)
-        {
-            Field.makeSnake();
-        }
+        _view = new View(SizeX, SizeY);
+        _schale.GenerateSnakes(10);
+        _schale.GenerateFeeds(10);
     }
 
     void Update()
     {
-        Field.step();
-    }
+        _schale.Step();
 
-    string GetCell(int x, int y)
-    {
-        if (Field.bodies[x, y] < 0)
-            return "o";
-        if (Field.wall[x, y])
-            return "@";
-        if (Field.foods[x, y])
-            return ".";
-        else
-            return "";
+        _view.Reflect(_schale);
     }
 
     void OnGUI()
     {
-        for ( int y = 0 ; y < Field.size_y ; y ++ )
+        for (long y = 0; y < SizeY; y++)
         {
-            for ( int x = 0 ; x < Field.size_x ; x ++ )
+            for (long x = 0; x < SizeX; x++)
             {
-                var cell = GetCell(x, y);
+                var cell = _view.Get(x, y);
 
-                GUI.Label(new Rect(x * 10, y * 10, 30, 30), cell);
+                var character = "";
+                switch (cell)
+                {
+                    case View.Cell.Feed:
+                        character = ".";
+                        break;
+                    case View.Cell.Snake:
+                        character = "o";
+                        break;
+                }
+                GUI.Label(new Rect(x * 10, y * 10, 30, 30), character);
             }
         }
     }
