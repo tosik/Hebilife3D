@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Hebilife;
+using System.Collections.Generic;
 
 public class Game : MonoBehaviour
 {
@@ -10,24 +11,66 @@ public class Game : MonoBehaviour
     [SerializeField]
     long SizeY = 50;
 
+    [SerializeField]
+    int NumberOfInitialSnakes = 100;
+
+    [SerializeField]
+    int NumberOfInitialFeeds = 100;
+
     Schale _schale = new Schale();
     View _view;
+
+    Object _snakePrefab;
+    Object _feedPrefab;
+
+    Dictionary<Position, GameObject> _feeds = new Dictionary<Position, GameObject>();
 
     void Start()
     {
         _view = new View(SizeX, SizeY);
-        _schale.GenerateSnakes(100, SizeX, SizeY);
-        _schale.GenerateFeeds(100, SizeX, SizeY);
+
+        _schale.SnakeGenerated += OnSnakeGenerate;
+        _schale.FeedRemoved += OnFeedRemove;
+        _schale.FeedGenerated += OnFeedGenerate;
+
+        _snakePrefab = Resources.Load("Prefabs/Snake");
+        _feedPrefab = Resources.Load("Prefabs/Feed");
+
+        _schale.GenerateSnakes(NumberOfInitialSnakes, SizeX, SizeY);
+        _schale.GenerateFeeds(NumberOfInitialFeeds, SizeX, SizeY);
         _schale.CreateFrame(SizeX, SizeY);
+    }
+
+    void OnSnakeGenerate(Snake snake)
+    {
+        var obj = (GameObject)Instantiate(_snakePrefab);
+        var behaviour = obj.GetComponent<SnakeBehaviour>();
+        behaviour.Initialize(snake);
+        obj.name = "Snake";
+    }
+
+    void OnFeedGenerate(Position pos)
+    {
+        var obj = (GameObject)Instantiate(_feedPrefab);
+        obj.transform.position = new Vector3(pos.X, 0, pos.Y);
+        _feeds[pos] = obj;
+    }
+
+    void OnFeedRemove(Position pos)
+    {
+        var obj = _feeds[pos];
+        _feeds.Remove(pos);
+        Destroy(obj);
     }
 
     void Update()
     {
         _schale.Step();
 
-        _view.Reflect(_schale);
+        //_view.Reflect(_schale);
     }
 
+    /*
     void OnGUI()
     {
         for (long y = 0; y < SizeY; y++)
@@ -57,4 +100,5 @@ public class Game : MonoBehaviour
             }
         }
     }
+    */
 }

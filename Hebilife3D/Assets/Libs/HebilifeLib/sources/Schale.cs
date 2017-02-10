@@ -15,6 +15,10 @@ namespace Hebilife
         readonly List<Position> _walls = new List<Position>();
         Random _random = new Random();
 
+        public event Action<Snake> SnakeGenerated;
+        public event Action<Position> FeedGenerated;
+        public event Action<Position> FeedRemoved;
+
         int Rand()
         {
             return _random.Next(1024);
@@ -26,6 +30,10 @@ namespace Hebilife
             {
                 var snake = new Snake(new Position(Rand() % (sizeX - 2) + 1, Rand() % (sizeY - 2) + 1), RandomDirection());
                 _snakes.Add(snake);
+                if (SnakeGenerated != null)
+                {
+                    SnakeGenerated(snake);
+                }
             }
         }
 
@@ -33,7 +41,13 @@ namespace Hebilife
         {
             for (var i = 0; i < num; i++)
             {
-                _feeds.Put(new Position(Rand() % (sizeX - 2) + 1, Rand() % (sizeY - 2) + 1));
+                var feed = new Position(Rand() % (sizeX - 2) + 1, Rand() % (sizeY - 2) + 1);
+                _feeds.Put(feed);
+
+                if (FeedGenerated != null)
+                {
+                    FeedGenerated(feed);
+                }
             }
         }
 
@@ -114,6 +128,12 @@ namespace Hebilife
             if (_feeds.Exists(snake.NextPosition))
             {
                 _feeds.Remove(snake.NextPosition);
+
+                if (FeedRemoved != null)
+                {
+                    FeedRemoved(snake.NextPosition);
+                }
+
                 snake.MoveAndEat();
             }
             else
@@ -144,6 +164,11 @@ namespace Hebilife
                 foreach (var body in snake.Bodies)
                 {
                     _feeds.Put(body);
+
+                    if (FeedGenerated != null)
+                    {
+                        FeedGenerated(body);
+                    }
                 }
             }
 
@@ -166,6 +191,10 @@ namespace Hebilife
 
             var newSnake = new Snake(snake, newBodies);
             _snakes.Add(newSnake);
+            if (SnakeGenerated != null)
+            {
+                SnakeGenerated(newSnake);
+            }
         }
 
         Direction RandomDirection()
