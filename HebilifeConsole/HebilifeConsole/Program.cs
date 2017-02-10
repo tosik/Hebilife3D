@@ -17,11 +17,14 @@ namespace HebilifeConsole
             // Schale equals a petri dish in German
             var schale = new Schale();
 
+            schale.GenerateSnakes(1);
+
             for (;;)
             {
                 schale.Step();
             }
         }
+
 
         static void RunLegacy()
         {

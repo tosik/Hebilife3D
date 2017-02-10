@@ -4,7 +4,7 @@ namespace Hebilife
 {
     public struct Position
     {
-        long X, Y;
+        public long X, Y;
 
         public Position(long x, long y)
         {

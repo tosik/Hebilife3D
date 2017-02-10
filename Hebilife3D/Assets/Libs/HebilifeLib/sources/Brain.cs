@@ -4,7 +4,17 @@ namespace Hebilife
 {
     public class Brain
     {
+        public NeuralNetwork NeuralNetwork { get { return _nn; } }
+
         NeuralNetwork _nn = new NeuralNetwork();
+
+        public Brain()
+        {
+            for (var i = 0; i < 3000; i++)
+            {
+                _nn.Mutate();
+            }
+        }
 
         public int Input(Feeling feeling)
         {
@@ -17,6 +27,12 @@ namespace Hebilife
             }
 
             return output;
+        }
+
+        public void CopyWithMutation(Brain origin)
+        {
+            _nn.Copy(origin.NeuralNetwork);
+            _nn.Mutate();
         }
     }
 }

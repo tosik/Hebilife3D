@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace Hebilife
 {
     public class Feeds
     {
+        public IEnumerable<Position> Items { get { return _feeds; } }
+
         List<Position> _feeds = new List<Position>();
 
         public bool Exists(Position position)
