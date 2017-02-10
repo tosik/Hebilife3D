@@ -65,6 +65,26 @@ namespace Hebilife
             }
         }
 
+        public void CreateRooms(int numberOfRooms, long sizeX, long sizeY)
+        {
+            for (var i = 0; i < numberOfRooms; i++)
+            {
+                var direction = RandomDirection();
+                var pos = new Position(Rand() % (sizeX - 10), Rand() % (sizeY - 10));
+                for (int x = 0; x < 10; x++)
+                {
+                    if (direction != Direction.North)
+                        _walls.Add(pos + new Position(x, 0));
+                    if (direction != Direction.South)
+                        _walls.Add(pos + new Position(x, 10));
+                    if (direction != Direction.East)
+                        _walls.Add(pos + new Position(10, x));
+                    if (direction != Direction.West)
+                        _walls.Add(pos + new Position(0, x));
+                }
+            }
+        }
+
         public void Step()
         {
             LetSnakesThinking();
@@ -92,6 +112,8 @@ namespace Hebilife
         {
             var feeling = new Feeling();
             feeling.FeedInFront = _feeds.Exists(snake.NextPosition);
+            feeling.FeedOnLeft = _feeds.Exists(snake.Head + snake.Direction.Turn(RelativeDirection.Left).AsPosition());
+            feeling.FeedOnRight = _feeds.Exists(snake.Head + snake.Direction.Turn(RelativeDirection.Right).AsPosition());
             feeling.ObstacleInFront = IsObstacle(snake.NextPosition, snake);
             feeling.ObstacleOnLeft = IsObstacle(snake.Head + snake.Direction.Turn(RelativeDirection.Left).AsPosition(), snake);
             feeling.ObstacleOnRight = IsObstacle(snake.Head + snake.Direction.Turn(RelativeDirection.Right).AsPosition(), snake);

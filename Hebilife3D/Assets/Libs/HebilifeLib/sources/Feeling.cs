@@ -3,15 +3,20 @@ namespace Hebilife
 {
     public struct Feeling
     {
-        public bool FeedInFront, ObstacleInFront, ObstacleOnRight, ObstacleOnLeft;
+        public bool FeedInFront, FeedOnRight, FeedOnLeft;
+        public bool ObstacleInFront, ObstacleOnRight, ObstacleOnLeft;
 
         public Feeling(
             bool feedInFront,
+            bool feedOnLeft,
+            bool feedOnRight,
             bool obstacleInFront,
             bool obstacleOnRight,
             bool obstacleOnLeft)
         {
             FeedInFront = feedInFront;
+            FeedOnRight = feedOnLeft;
+            FeedOnLeft = feedOnRight;
             ObstacleInFront = obstacleInFront;
             ObstacleOnRight = obstacleOnRight;
             ObstacleOnLeft = obstacleOnLeft;
@@ -23,7 +28,8 @@ namespace Hebilife
             {
                 return new bool[]
                 {
-                    FeedInFront, ObstacleInFront, ObstacleOnRight, ObstacleOnLeft
+                    FeedInFront, FeedOnLeft, FeedOnRight,
+                    ObstacleInFront, ObstacleOnRight, ObstacleOnLeft,
                 };
             }
         }

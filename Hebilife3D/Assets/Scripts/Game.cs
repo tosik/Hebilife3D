@@ -17,11 +17,15 @@ public class Game : MonoBehaviour
     [SerializeField]
     int NumberOfInitialFeeds = 100;
 
+    [SerializeField]
+    int NumberOfRooms = 5;
+
     Schale _schale = new Schale();
     View _view;
 
     Object _snakePrefab;
     Object _feedPrefab;
+    Object _wallPrefab;
 
     Dictionary<Position, GameObject> _feeds = new Dictionary<Position, GameObject>();
 
@@ -35,10 +39,24 @@ public class Game : MonoBehaviour
 
         _snakePrefab = Resources.Load("Prefabs/Snake");
         _feedPrefab = Resources.Load("Prefabs/Feed");
+        _wallPrefab = Resources.Load("Prefabs/Wall");
 
         _schale.GenerateSnakes(NumberOfInitialSnakes, SizeX, SizeY);
         _schale.GenerateFeeds(NumberOfInitialFeeds, SizeX, SizeY);
         _schale.CreateFrame(SizeX, SizeY);
+        _schale.CreateRooms(NumberOfRooms, SizeX, SizeY);
+
+        CreateWallObjects();
+    }
+
+    void CreateWallObjects()
+    {
+        foreach (var wall in _schale.Walls)
+        {
+            var obj = (GameObject)Instantiate(_wallPrefab);
+            obj.transform.position = new Vector3(wall.X, 0, wall.Y);
+            obj.name = "Wall";
+        }
     }
 
     void OnSnakeGenerate(Snake snake)

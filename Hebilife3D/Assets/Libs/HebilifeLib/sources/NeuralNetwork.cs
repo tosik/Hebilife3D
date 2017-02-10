@@ -5,7 +5,7 @@ namespace Hebilife
     public class NeuralNetwork
     {
         public const int NumOfLayers = 3;
-        public const int NumOfNeuron = 3;
+        public const int NumOfNeuron = 6;
 
         public int[,] _neurons = new int[NumOfLayers, NumOfNeuron];
         public double[,,] _weights = new double[NumOfLayers, NumOfNeuron, NumOfNeuron];
