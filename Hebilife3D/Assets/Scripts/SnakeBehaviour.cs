@@ -52,34 +52,12 @@ public class SnakeBehaviour : MonoBehaviour
     {
         get
         {
+            var gene = Snake.Brain.NeuralNetwork.Gene;
             return new Color(
-                (float)Snake.Brain.NeuralNetwork.GetWeight(0, 0, 0) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(0, 1, 0) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(0, 2, 0) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(0, 0, 1) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(0, 1, 1) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(0, 2, 1) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(0, 0, 2) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(0, 1, 2) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(0, 2, 2) % 1,
-                (float)Snake.Brain.NeuralNetwork.GetWeight(1, 0, 0) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(1, 1, 0) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(1, 2, 0) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(1, 0, 1) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(1, 1, 1) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(1, 2, 1) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(1, 0, 2) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(1, 1, 2) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(1, 2, 2) % 1,
-                (float)Snake.Brain.NeuralNetwork.GetWeight(2, 0, 0) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(2, 1, 0) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(2, 2, 0) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(2, 0, 1) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(2, 1, 1) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(2, 2, 1) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(2, 0, 2) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(2, 1, 2) +
-                (float)Snake.Brain.NeuralNetwork.GetWeight(2, 2, 2) % 1);
+                (gene & 0xfffff) / (float)(2 << 20),
+                ((gene >> 20) & 0xfffff) / (float)(2 << 20),
+                ((gene >> 40) & 0xffffff) / (float)(2 << 24)
+            );
         }
     }
 }

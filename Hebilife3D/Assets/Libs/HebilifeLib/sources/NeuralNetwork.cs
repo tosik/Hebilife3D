@@ -8,7 +8,7 @@ namespace Hebilife
         public const int NumOfNeuron = 6;
 
         public int[,] _neurons = new int[NumOfLayers, NumOfNeuron];
-        public double[,,] _weights = new double[NumOfLayers, NumOfNeuron, NumOfNeuron];
+        public double[,,] _weights = new double[NumOfLayers - 1, NumOfNeuron, NumOfNeuron];
 
         Random _random = new Random();
 
@@ -49,7 +49,7 @@ namespace Hebilife
                     _neurons[layer, x] = origin.GetNeuron(layer, x);
                 }
             }
-            for (int layer = 0; layer < NumOfLayers; layer++)
+            for (int layer = 0; layer < NumOfLayers - 1; layer++)
             {
                 for (int x = 0; x < NumOfNeuron; x++)
                 {
@@ -76,7 +76,7 @@ namespace Hebilife
             for (int i = 0; i < 100; i++)
             {
                 _weights[
-                    Rand() % NumOfLayers,
+                    Rand() % (NumOfLayers - 1),
                     Rand() % NumOfNeuron,
                     Rand() % NumOfNeuron] += 0.1 * (Rand() % 2 == 0 ? -1 : 1);
             }
@@ -93,6 +93,32 @@ namespace Hebilife
         int Rand()
         {
             return _random.Next(1024);
+        }
+
+        public long Gene
+        {
+            get
+            {
+                long dest = 0;
+                var bit = 0;
+                for (var layer = 0; layer < NumOfLayers - 1; layer++)
+                {
+                    for (var y = 0; y < NumOfNeuron; y++)
+                    {
+                        for (var x = 0; x < NumOfNeuron; x++)
+                        {
+                            if (bit < 64)
+                            {
+                                var boolean = _weights[layer, y, x] > 0.5 ? 1 : 0;
+                                dest += boolean << bit;
+                                bit++;
+                            }
+                        }
+                    }
+                }
+
+                return dest;
+            }
         }
    }
 }
