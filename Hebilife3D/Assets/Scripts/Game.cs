@@ -4,7 +4,7 @@ using Hebilife;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Game : MonoBehaviour
+public class Game : Controller
 {
     [SerializeField]
     long SizeX = 50;
@@ -29,8 +29,10 @@ public class Game : MonoBehaviour
 
     Dictionary<Position, GameObject> _feeds = new Dictionary<Position, GameObject>();
 
-    void Start()
+    public override void Start()
     {
+        base.Start();
+
         _schale.SnakeGenerated += OnSnakeGenerate;
         _schale.FeedRemoved += OnFeedRemove;
         _schale.FeedGenerated += OnFeedGenerate;
@@ -87,6 +89,9 @@ public class Game : MonoBehaviour
         {
             _schale.GenerateSnakes(NumberOfInitialSnakes, SizeX, SizeY);
         }
+
+        Context.Status.Reflect(_schale);
+        Context.Status.Steps++;
     }
 
     public void GenerateRandomSnakes()
