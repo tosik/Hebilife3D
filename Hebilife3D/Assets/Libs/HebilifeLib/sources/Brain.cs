@@ -10,10 +10,7 @@ namespace Hebilife
 
         public Brain()
         {
-            for (var i = 0; i < 3000; i++)
-            {
-                _nn.Mutate();
-            }
+            _nn.Randomize();
         }
 
         public int Input(Feeling feeling)

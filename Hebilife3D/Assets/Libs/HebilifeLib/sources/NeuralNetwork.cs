@@ -82,6 +82,20 @@ namespace Hebilife
             }
         }
 
+        public void Randomize()
+        {
+            for (int layer = 0; layer < NumOfLayers - 1; layer++)
+            {
+                for (int x = 0; x < NumOfNeuron; x++)
+                {
+                    for (int y = 0; y < NumOfNeuron; y++)
+                    {
+                        _weights[layer, x, y] = ((double)Rand()) / 1024.0;
+                    }
+                }
+            }
+        }
+
         void WriteFirstLayer(int[] input)
         {
             for (int n = 0; n < NumOfNeuron; n++)
