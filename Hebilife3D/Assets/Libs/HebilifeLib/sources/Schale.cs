@@ -14,6 +14,7 @@ namespace Hebilife
         readonly Feeds _feeds = new Feeds();
         readonly List<Position> _walls = new List<Position>();
         Random _random = new Random();
+        Dictionary<Position, bool> _nextObstacleMap;
 
         public event Action<Snake> SnakeGenerated;
         public event Action<Position> FeedGenerated;
@@ -87,11 +88,30 @@ namespace Hebilife
 
         public void Step()
         {
+            UpdateNextObstacleMap();
             LetSnakesThinking();
             DecideSnakesDeath();
             LetSnakesMoving();
             ChangeDeadSnakesIntoFeeds();
             DivideMatureSnakes();
+        }
+
+        // caution: without a head
+        void UpdateNextObstacleMap()
+        {
+            _nextObstacleMap = new Dictionary<Position, bool>();
+
+            foreach (var snake in Snakes)
+            {
+                foreach (var body in snake.BodiesWithoutTerminal)
+                {
+                    _nextObstacleMap[body] = true;
+                }
+            }
+            foreach (var wall in Walls)
+            {
+                _nextObstacleMap[wall] = true;
+            }
         }
 
         void LetSnakesThinking()
@@ -166,10 +186,15 @@ namespace Hebilife
 
         bool ObstacleExistsInNextTiming(Position position)
         {
-            var wall = _walls.Contains(position);
-            var snake = _snakes.Any(s => s.BodiesWithoutTerminal.Contains(position));
-
-            return wall || snake;
+            bool value;
+            if (_nextObstacleMap.TryGetValue(position, out value))
+            {
+                return value;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         bool CollidedWithOtherNextPositions(Position position, Snake me)
