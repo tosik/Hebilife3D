@@ -6,7 +6,7 @@ public class Context : MonoBehaviour
 {
     public static Context Instance;
 
-    void Start()
+    void Awake()
     {
         Instance = this;
 

@@ -5,6 +5,9 @@ using Hebilife;
 
 public class SnakeBehaviour : MonoBehaviour
 {
+    [TextArea]
+    public string Gene;
+
     public Snake Snake { get; private set; }
     List<GameObject> _bodies;
     GameObject _bodyObject;
@@ -46,6 +49,8 @@ public class SnakeBehaviour : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        Gene = Snake.Brain.NeuralNetwork.GeneAsString;
     }
 
     Color Color

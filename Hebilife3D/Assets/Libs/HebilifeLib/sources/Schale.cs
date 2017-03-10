@@ -15,6 +15,7 @@ namespace Hebilife
         readonly List<Position> _walls = new List<Position>();
         Random _random = new Random();
         Dictionary<Position, bool> _nextObstacleMap;
+        Dictionary<Position, bool> _feedMap;
 
         public event Action<Snake> SnakeGenerated;
         public event Action<Position> FeedGenerated;
@@ -89,6 +90,7 @@ namespace Hebilife
         public void Step()
         {
             UpdateNextObstacleMap();
+            UpdateFeedMap();
             LetSnakesThinking();
             DecideSnakesDeath();
             LetSnakesMoving();
@@ -114,6 +116,16 @@ namespace Hebilife
             }
         }
 
+        void UpdateFeedMap()
+        {
+            _feedMap = new Dictionary<Position, bool>();
+
+            foreach (var feed in Feeds.Items)
+            {
+                _feedMap[feed] = true;
+            }
+        }
+
         void LetSnakesThinking()
         {
             foreach (var snake in _snakes)
@@ -128,12 +140,25 @@ namespace Hebilife
                 CollidedWithOtherNextPositions(position, ignoringSnake);
         }
 
+        bool FeedExists(Position position)
+        {
+            bool value;
+            if (_feedMap.TryGetValue(position, out value))
+            {
+                return value;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         void Think(Snake snake)
         {
             var feeling = new Feeling();
-            feeling.FeedInFront = _feeds.Exists(snake.NextPosition);
-            feeling.FeedOnLeft = _feeds.Exists(snake.Head + snake.Direction.Turn(RelativeDirection.Left).AsPosition());
-            feeling.FeedOnRight = _feeds.Exists(snake.Head + snake.Direction.Turn(RelativeDirection.Right).AsPosition());
+            feeling.FeedInFront = FeedExists(snake.NextPosition);
+            feeling.FeedOnLeft = FeedExists(snake.Head + snake.Direction.Turn(RelativeDirection.Left).AsPosition());
+            feeling.FeedOnRight = FeedExists(snake.Head + snake.Direction.Turn(RelativeDirection.Right).AsPosition());
             feeling.ObstacleInFront = IsObstacle(snake.NextPosition, snake);
             feeling.ObstacleOnLeft = IsObstacle(snake.Head + snake.Direction.Turn(RelativeDirection.Left).AsPosition(), snake);
             feeling.ObstacleOnRight = IsObstacle(snake.Head + snake.Direction.Turn(RelativeDirection.Right).AsPosition(), snake);
@@ -167,7 +192,7 @@ namespace Hebilife
 
         void Move(Snake snake)
         {
-            if (_feeds.Exists(snake.NextPosition))
+            if (FeedExists(snake.NextPosition))
             {
                 _feeds.Remove(snake.NextPosition);
 
