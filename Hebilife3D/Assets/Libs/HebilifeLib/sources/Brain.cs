@@ -8,6 +8,8 @@ namespace Hebilife
 
         NeuralNetwork _nn = new NeuralNetwork();
 
+        int _beat = 0;
+
         public Brain()
         {
             _nn.Randomize();
@@ -15,6 +17,17 @@ namespace Hebilife
 
         public int Input(Feeling feeling)
         {
+            _beat++;
+            if (_beat >= 30)
+            {
+                feeling.FeedOnLeft = true;
+                feeling.FeedOnRight = true;
+                feeling.FeedInFront = true;
+                feeling.ObstacleOnLeft = true;
+                feeling.ObstacleOnRight = true;
+                feeling.ObstacleInFront = true;
+            }
+
             var outputAsArray = _nn.Step(feeling.AsArray.Select(x => x ? 1 : 0).ToArray());
 
             int output = 0;

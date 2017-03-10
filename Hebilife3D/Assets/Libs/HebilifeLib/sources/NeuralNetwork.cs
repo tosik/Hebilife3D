@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Hebilife
 {
@@ -132,6 +133,43 @@ namespace Hebilife
                 }
 
                 return dest;
+            }
+        }
+
+        public string GeneAsString
+        {
+            get
+            {
+                var dest = "";
+                for (var layer = 0; layer < NumOfLayers - 1; layer++)
+                {
+                    for (var y = 0; y < NumOfNeuron; y++)
+                    {
+                        for (var x = 0; x < NumOfNeuron; x++)
+                        {
+                            dest += _weights[layer, y, x].ToString() + "\n";
+                        }
+                    }
+                }
+
+                return dest;
+            }
+        }
+
+        public void SetGene(string value)
+        {
+            int i = 0;
+            var array = value.Split(new char[] { '\n' }).Where(x => x != "").Select(x => double.Parse(x)).ToList();
+            for (var layer = 0; layer < NumOfLayers - 1; layer++)
+            {
+                for (var y = 0; y < NumOfNeuron; y++)
+                {
+                    for (var x = 0; x < NumOfNeuron; x++)
+                    {
+                        _weights[layer, y, x] = array[i];
+                        i++;
+                    }
+                }
             }
         }
    }
